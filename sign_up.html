@@ -81,7 +81,16 @@
              let getValue = $('#signUpForm').find(`input[name=${value}]`).val()
              hash[value] = getValue
          })
-         console.log(hash)
+         // jQuery.post(): 使用一个 HTTP POST请求 从服务器加载数据
+         //这里使用 Promise
+         $.post('/sign_up',hash).then(
+             ()=>{
+                 console.log('success')
+             },
+             ()=>{
+                console.log('failed')
+             }
+         )
      })
 
     </script>
