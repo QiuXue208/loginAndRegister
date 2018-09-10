@@ -52,7 +52,7 @@
 <body>
     <h2>注册</h2>
     <div class="formContainer">
-        <form>
+        <form id="signUpForm">
             <div class="show">
                 <label for="">邮箱</label>
                 <input type="text" name="email">
@@ -70,6 +70,21 @@
             </div>
         </form>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+
+     $('#signUpForm').on('submit',function(e){
+         let hash = {}
+         e.preventDefault()
+         let need = ['email','password','password_confirm']
+         need.forEach((value)=>{
+             let getValue = $('#signUpForm').find(`input[name=${value}]`).val()
+             hash[value] = getValue
+         })
+         console.log(hash)
+     })
+
+    </script>
 </body>
 
 </html>
