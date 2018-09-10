@@ -29,6 +29,12 @@ var server = http.createServer(function(request, response){
     response.setHeader('Content-Type','text/html;charset=utf-8')
     response.write(string)
     response.end()
+  }else if(path === './sign_up'){
+    let string = fs.readFileSync('./sign_up.html','utf8')
+    response.statusCode = 200
+    response.setHeader('Content-Type','text/html;charset=utf-8')
+    response.write(string)
+    response.end()
   }else if(path === './main.js'){
     let string = fs.readFileSync('./main.js','utf8')
     response.statusCode = 200
