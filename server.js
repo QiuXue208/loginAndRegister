@@ -23,14 +23,13 @@ var server = http.createServer(function(request, response){
   console.log('得到 HTTP 路径\n' + path)
   console.log('查询字符串为\n' + query)
   console.log('不含查询字符串的路径为\n' + pathNoQuery)
-  /*if(path === '/'){
+  if(path === '/'){
     let string = fs.readFileSync('./index.html','utf8')
     response.statusCode = 200
     response.setHeader('Content-Type','text/html;charset=utf-8')
     response.write(string)
     response.end()
-  }else */
-  if(path === '/sign_up'){
+  }else if(path === '/sign_up'){
     let string = fs.readFileSync('./sign_up.html','utf8')
     response.statusCode = 200
     response.setHeader('Content-Type','text/html;charset=utf-8')
