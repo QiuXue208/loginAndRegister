@@ -1,25 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>注册页面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            border: 1px solid grey;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        div.formContainer{
+            border:1px solid grey;
+            padding:10px;
+            margin:10px;
+        }
+        div.show{
+            margin:10px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+        div.show > label{
+            height:25px;
+            line-height:23px;
+            margin-right:10px;
+            display:inline-block;
+            width:4em;
+            text-align:justify;
+        }
+        div.show > label::after{
+            content:'';
+            display:inline-block;
+            width:100%;
+        }
+
+    </style>
 </head>
+
 <body>
-    <form>
-        <div class="show">
-            <label for="">邮箱</label>
-            <input type="text" name="email">
-        </div>
-        <div class="show">
-            <label for="">密码</label>
-            <input type="password" name="password">
-        </div>
-        <div class="show">
-            <label for="">确认密码</label>
-            <input type="password" name="password_confirm">
-        </div>
-    </form>
+    <h2>注册</h2>
+    <div class="formContainer">
+        <form>
+            <div class="show">
+                <label for="">邮箱</label>
+                <input type="text" name="email">
+            </div>
+            <div class="show">
+                <label for="">密码</label>
+                <input type="password" name="password">
+            </div>
+            <div class="show">
+                <label for="">确认密码</label>
+                <input type="password" name="password_confirm">
+            </div>
+            <div class="show">
+                <input type="submit" value="注册">
+            </div>
+        </form>
+    </div>
 </body>
+
 </html>
