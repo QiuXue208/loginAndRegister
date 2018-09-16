@@ -55,21 +55,39 @@ var server = http.createServer(function(request, response){
         let key = array2[0]
         let value = array2[1]
         // hash['email'] = '1'
-        hash[key] = value
+        hash[key] = decodeURIComponent(value)
       })
       // hash:{ email: '1', password: '2', password_confirm: '3' }
       // let email = hash.email
       // let password = hash.password
       // let password_confirm = hash.password_confirm
       let { email , password , password_confirm } = hash
-      if(email.indexOf('%40') === -1){
+      if(email.indexOf('@') === -1){
         response.statusCode = 400
         response.write('The format of email is error!')
       }else if(password !== password_confirm){
         response.statusCode = 400
         response.write('The password is not match!')
       }else{
-        response.statusCode = 200
+        let users = fs.readFileSync('./db/usersInfo','utf8')
+        users = JSON.parse(users) 
+        let using = false
+        for(let i=0;i<users.length;i++){
+          let user = users[i]
+          if(user.email === email){
+            using = true
+            break
+          }
+        }
+        if(using){
+          response.statusCode = 400
+          response.write('邮箱已被使用')
+        }else{
+          users.push({email:email,password:password})
+          let usersString = JSON.stringify(users)
+          fs.writeFileSync('./db/usersInfo',usersString)
+          response.statusCode = 200
+        }
       }      
       response.end()
     })
