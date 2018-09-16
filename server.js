@@ -57,7 +57,7 @@ var server = http.createServer(function(request, response){
         // hash['email'] = '1'
         hash[key] = value
       })
-      //hash:{ email: '1', password: '2', password_confirm: '3' }
+      // hash:{ email: '1', password: '2', password_confirm: '3' }
       // let email = hash.email
       // let password = hash.password
       // let password_confirm = hash.password_confirm
@@ -69,6 +69,7 @@ var server = http.createServer(function(request, response){
         response.statusCode = 400
         response.write('The password is not match!')
       }else{
+        
         response.statusCode = 200
       }      
       response.end()
