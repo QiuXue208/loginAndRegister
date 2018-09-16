@@ -38,11 +38,25 @@ var server = http.createServer(function(request, response){
   }else if(path === '/sign_up' && method === "POST"){
     /* 获取post数据 */
     let body = []   //请求体
+    // 请求时上传数据是一段一段上传的
     //监听data事件，每次获得一小段然后放到数组
     request.on('data',(chunk)=>{ 
       body.push(chunk)
     }).on('end',()=>{
+      // "email=1&password=2&password_confirm=3"
       body = Buffer.concat(body).toString()
+      // ['email=1','password=2','password_confirm=3']
+      let array =  body.split('&') 
+      let hash = {}
+      array.forEach((v)=>{
+        // ['email','1']
+        let array2 = v.split('=')
+        let key = array2[0]
+        let value = array2[1]
+        // hash['email'] = '1'
+        hash[key] = value
+      })
+      //hash:{ email: '1', password: '2', password_confirm: '3' }
       response.statusCode = 200
       response.end()
     })
