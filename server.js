@@ -35,14 +35,14 @@ var server = http.createServer(function(request, response){
     response.setHeader('Content-Type','text/html;charset=utf-8')
     response.write(string)
     response.end()
-  }else if(path === '/sign_up' && method === "post"){
+  }else if(path === '/sign_up' && method === "POST"){
     /* 获取post数据 */
-    let body = []
-    request.on('data',(chunk)=>{
-    body.push(chunk)
-  }).on('end',()=>{
-      body = Buffer.contact(body).toString()
-      console.log(body)
+    let body = []   //请求体
+    //监听data事件，每次获得一小段然后放到数组
+    request.on('data',(chunk)=>{ 
+      body.push(chunk)
+    }).on('end',()=>{
+      body = Buffer.concat(body).toString()
       response.statusCode = 200
       response.end()
     })
