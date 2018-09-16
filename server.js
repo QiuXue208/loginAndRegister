@@ -57,7 +57,16 @@ var server = http.createServer(function(request, response){
         hash[key] = value
       })
       //hash:{ email: '1', password: '2', password_confirm: '3' }
-      response.statusCode = 200
+      let { eamil , password , password_confirm } = hash
+      if(email.indexOf('@') === -1){
+        response.statusCode = 400
+        response.write('The format of email is error!')
+      }else if(password !== password_confirm){
+        response.statusCode = 400
+        response.write('The password is not match!')
+      }else{
+        response.statusCode = 200
+      }      
       response.end()
     })
   }
