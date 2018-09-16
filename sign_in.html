@@ -45,14 +45,12 @@
             display:inline-block;
             width:100%;
         }
-
     </style>
 </head>
-
 <body>
     <h2>登录</h2>
     <div class="formContainer">
-        <form id="signUpForm">
+        <form id="signInForm">
             <div class="show">
                 <label for="">邮箱</label>
                 <input type="text" name="email">
@@ -67,6 +65,25 @@
         </form>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $('#signInForm').on('submit',function(e){
+         let hash = {}
+         e.preventDefault()
+         let need = ['email','password']
+         need.forEach((value)=>{
+             let getValue = $('#signInForm').find(`input[name=${value}]`).val()
+             hash[value] = getValue
+         })
+         $.post('/sign_in',hash).then(
+             ()=>{
+                 //跳转到首页
+             },
+             (response)=>{
+                alert(response.responseText)
+             }
+         )
+     })
+    </script>
 </body>
 
 </html>

@@ -21,8 +21,8 @@ var server = http.createServer(function(request, response){
 
   /******** 从这里开始看，上面不要看 ************/
   console.log('得到 HTTP 路径\n' + path)
-  console.log('查询字符串为\n' + query)
-  console.log('不含查询字符串的路径为\n' + pathNoQuery)
+  // console.log('查询字符串为\n' + query)
+  // console.log('不含查询字符串的路径为\n' + pathNoQuery)
   if(path === '/'){
     let string = fs.readFileSync('./index.html','utf8')
     response.statusCode = 200
@@ -36,7 +36,7 @@ var server = http.createServer(function(request, response){
     response.write(string)
     response.end()
   }else if(path === '/sign_up' && method === "POST"){  
-    response.setHeader('Content-Type','text/html;charset=utf-8')
+    //response.setHeader('Content-Type','text/html;charset=utf-8')
     /* 获取post数据 */
     let body = []   //请求体
     // 请求时上传数据是一段一段上传的
@@ -89,6 +89,30 @@ var server = http.createServer(function(request, response){
           response.statusCode = 200
         }
       }      
+      response.end()
+    })
+  }else if(path === '/sign_in' && method === 'GET'){
+    let string = fs.readFileSync('./sign_in.html','utf8')
+    response.statusCode = 200
+    response.setHeader('Content-Type','text/html;charset=utf-8')
+    response.write(string)
+    response.end()
+  }else if(path === '/sign_in' && method === 'POST'){
+    let body = []
+    request.on('data',(chunk)=>{ 
+      body.push(chunk)
+    }).on('end',()=>{
+      body = Buffer.concat(body).toString()
+      let array =  body.split('&')
+      let hash = {}
+      array.forEach((v)=>{
+        let array2 = v.split('=')
+        let key = array2[0]
+        let value = array2[1]
+        hash[key] = decodeURIComponent(value)
+      })
+      // 获取到用户输入的邮箱和密码
+      let {email,password} = hash
       response.end()
     })
   }
