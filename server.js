@@ -35,7 +35,8 @@ var server = http.createServer(function(request, response){
     response.setHeader('Content-Type','text/html;charset=utf-8')
     response.write(string)
     response.end()
-  }else if(path === '/sign_up' && method === "POST"){
+  }else if(path === '/sign_up' && method === "POST"){  
+    response.setHeader('Content-Type','text/html;charset=utf-8')
     /* 获取post数据 */
     let body = []   //请求体
     // 请求时上传数据是一段一段上传的
@@ -46,7 +47,7 @@ var server = http.createServer(function(request, response){
       // "email=1&password=2&password_confirm=3"
       body = Buffer.concat(body).toString()
       // ['email=1','password=2','password_confirm=3']
-      let array =  body.split('&') 
+      let array =  body.split('&')
       let hash = {}
       array.forEach((v)=>{
         // ['email','1']
@@ -57,8 +58,11 @@ var server = http.createServer(function(request, response){
         hash[key] = value
       })
       //hash:{ email: '1', password: '2', password_confirm: '3' }
-      let { eamil , password , password_confirm } = hash
-      if(email.indexOf('@') === -1){
+      // let email = hash.email
+      // let password = hash.password
+      // let password_confirm = hash.password_confirm
+      let { email , password , password_confirm } = hash
+      if(email.indexOf('%40') === -1){
         response.statusCode = 400
         response.write('The format of email is error!')
       }else if(password !== password_confirm){

@@ -87,8 +87,8 @@
              ()=>{
                  console.log('success')
              },
-             ()=>{
-                console.log('failed')
+             (response)=>{
+                alert(response.responseText)
              }
          )
      })
