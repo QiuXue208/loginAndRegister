@@ -124,10 +124,9 @@ var server = http.createServer(function(request, response){
       }
       if(found){
         response.statusCode = 200
-        response.write('登录成功')
       }else{
         response.statusCode = 401
-        response.write('用户不存在，请先注册')
+        response.write('sign_up first,please')
       }
       response.end()
     })
