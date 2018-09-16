@@ -113,6 +113,22 @@ var server = http.createServer(function(request, response){
       })
       // 获取到用户输入的邮箱和密码
       let {email,password} = hash
+      let users = fs.readFileSync('./db/usersInfo','utf8')
+      users = JSON.parse(users) 
+      let found = false
+      for(let i=0;i<users.length;i++){
+        if(users[i].email === email && users[i].password === password){
+          found = true
+          break
+        }
+      }
+      if(found){
+        response.statusCode = 200
+        response.write('登录成功')
+      }else{
+        response.statusCode = 401
+        response.write('用户不存在，请先注册')
+      }
       response.end()
     })
   }
