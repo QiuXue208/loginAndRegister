@@ -25,6 +25,29 @@ var server = http.createServer(function(request, response){
   // console.log('不含查询字符串的路径为\n' + pathNoQuery)
   if(path === '/'){
     let string = fs.readFileSync('./index.html','utf8')
+    let cookies = request.headers.cookie.split(';')
+    let hash = {}
+    for(let i=0;i<cookies.length;i++){
+      let parts = cookies[i].split('=')
+      let key = parts[0]
+      let value = parts[1]
+      hash[key] = value
+    }
+    let email = hash[sign_in_email]
+    let users = fs.readFileSync('./db/usersInfo','utf8')
+    users = JSON.parse(users)
+    let foundUser
+    for(let i=0;i<users.length;i++){
+      if(users[i].email === email){
+        foundUser = users[i]
+        break
+      }
+    }
+    if(foundUser){
+      string = string.replace('','')
+    }else{
+      string = string.replace('','')
+    }
     response.statusCode = 200
     response.setHeader('Content-Type','text/html;charset=utf-8')
     response.write(string)
@@ -124,8 +147,9 @@ var server = http.createServer(function(request, response){
       }
       if(found){
         response.statusCode = 200
+        // 设置cookie 记录登录的是哪一个用户
         response.setHeader('Set-Cookie',`sign_in_email=${email}`)
-      }else{
+      }else{  
         response.statusCode = 401
         response.write('sign_up first,please')
       }
