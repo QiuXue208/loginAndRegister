@@ -33,7 +33,9 @@ var server = http.createServer(function(request, response){
       let value = parts[1]
       hash[key] = value
     }
-    let email = hash[sign_in_email]
+    console.log(hash)
+    let email = hash[' sign_in_email']
+    console.log(email)
     let users = fs.readFileSync('./db/usersInfo','utf8')
     users = JSON.parse(users)
     let foundUser
@@ -44,9 +46,9 @@ var server = http.createServer(function(request, response){
       }
     }
     if(foundUser){
-      string = string.replace('','')
+      string = string.replace('&&user&&',`${email}`)
     }else{
-      string = string.replace('','')
+      string = string.replace('&&user&&','&nbsp;请先登录！')
     }
     response.statusCode = 200
     response.setHeader('Content-Type','text/html;charset=utf-8')
