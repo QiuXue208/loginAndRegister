@@ -8,6 +8,7 @@ if(!port){
   process.exit(1)
 }
 
+let sessions = {}
 var server = http.createServer(function(request, response){
   var parsedUrl = url.parse(request.url, true)
   var path = request.url 
@@ -25,7 +26,10 @@ var server = http.createServer(function(request, response){
   // console.log('不含查询字符串的路径为\n' + pathNoQuery)
   if(path === '/'){
     let string = fs.readFileSync('./index.html','utf8')
-    let cookies = request.headers.cookie.split(';')
+    let cookies  = ''
+    if(request.headers.cookie){
+      cookies = request.headers.cookie.split(';')
+    } 
     let hash = {}
     for(let i=0;i<cookies.length;i++){
       let parts = cookies[i].split('=')
@@ -33,7 +37,13 @@ var server = http.createServer(function(request, response){
       let value = parts[1]
       hash[key] = value
     }
-    let email = hash[' sign_in_email']
+    // hash : {sessionId:'xxx'}
+    // 去读取sessionId对应的用户信息
+    let mySession = sessions[hash.sessionId]
+    let email
+    if(mySession){
+      email = mySession.sign_in_email
+    }
     let users = fs.readFileSync('./db/usersInfo','utf8')
     users = JSON.parse(users)
     let foundUser
@@ -146,9 +156,12 @@ var server = http.createServer(function(request, response){
         }
       }
       if(found){
+        let sessionId = Math.random() * 1000000
+        sessions[sessionId] = {sign_in_email:email}
         response.statusCode = 200
         // 设置cookie 记录登录的是哪一个用户
-        response.setHeader('Set-Cookie',`sign_in_email=${email}`)
+        console.log(sessions)
+        response.setHeader('Set-Cookie',`sessionId=${sessionId}`)
       }else{  
         response.statusCode = 401
         response.write('sign_up first,please')
