@@ -84,7 +84,7 @@
          //这里使用 Promise
          $.post('/sign_up',hash).then(
              ()=>{
-                 console.log('success')
+                 window.location.href = '/'
              },
              (response)=>{
                 alert(response.responseText)

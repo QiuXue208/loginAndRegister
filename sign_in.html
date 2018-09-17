@@ -77,10 +77,10 @@
          $.post('/sign_in',hash).then(
              ()=>{
                  //跳转到首页
-                 window.location.href = './'
+                 window.location.href = '/'
              },
-             (response)=>{
-                alert(response.responseText)
+             (request)=>{
+                alert(request.responseText)
              }
          )
      })
